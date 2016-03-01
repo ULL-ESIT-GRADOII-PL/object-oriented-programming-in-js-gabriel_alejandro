@@ -8,7 +8,7 @@ Este repositorio aloja la práctica de conversión de tipos, realizada con html,
 * [Repositorio de la Organización: ](https://github.com/ULL-ESIT-GRADOII-PL/object-oriented-programming-in-js-gabriel_alejandro.git)
 * [Repositorio de trabajo: ](https://github.com/marrero-/object-oriented-programming-in-js-gabriel_alejandro.git)
 
-**Página de despliegue de la aplicación: **
+**Página de despliegue de la aplicación:**
 * [Web](http://ull-esit-gradoii-pl.github.io/object-oriented-programming-in-js-gabriel_alejandro/)
 
 **Página de los autores**
