@@ -1,6 +1,5 @@
 (function (exports) {
 	"use strict";
-	var XRegExp = require('xregexp');
 	
 	function Medida(valor, tipo) {
 		this.value = valor;
@@ -62,13 +61,14 @@
 		var valor = document.getElementById('convert').value,
 			elemento = document.getElementById('converted'),
 			/* Extienda la RegeExp a la especificación. use una XRegExp */
-			regexp = XRegExp('^(?<numero> ([-+]?\d+[\.\d+?])' + 
-											 '(?<exponente> e[+-]?\d+?' + 
-											 '?<tipo> [cfk]' +
-											 '?<to> (to)?' +
-											 '?<resultado> [cfk]', 'xi');
-			//regexp = /^\s*([-+]?\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*([a-z,A-Z]+)\s*$/i,
+			// regexp = ('^(?<numero> ([-+]?\d+[\.\d+?])' + 
+			// 								 '(?<exponente> e[+-]?\d+?' + 
+			// 								 '?<tipo> [cfk]' +
+			// 								 '?<to> (to)?' +
+			// 								 '?<resultado> [cfk]', 'xi');
+			regexp = /^\s*([-+]?\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*([a-z,A-Z]+)\s*$/i,
 			valor = valor.match(regexp);
+	
 		if (valor) {
 			var numero = valor[1],
 			tipo = valor[2].toLowerCase();
@@ -92,6 +92,6 @@
 			}
 		}
 		else
-			elemento.innerHTML = "";
+			elemento.innerHTML = "Inserte algo";
 	}
 })(this);
