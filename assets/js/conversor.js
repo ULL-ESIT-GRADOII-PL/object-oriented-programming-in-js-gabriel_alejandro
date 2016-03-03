@@ -11,39 +11,40 @@
 		}
 
 		function Celsius(valor) {
-			Temperatura.call(this, valor);
+			Temperatura.call(this, valor, "c");
 			this.toFarenheit = function () {
-				return ((this.value * 9 / 5) + 32);
-			}
+				return ((valor * 9 / 5) + 32);
+			};
 
 			this.toKelvin = function () {
-				return (this.value + 273.15);
-			}
+				return (valor + 273.15);
+			};
 		}
 
 		function Farenheit(valor) {
-			Temperatura.call(this, valor);
+			Temperatura.call(this, valor, "f");
+
 			this.toKelvin = function () {
-				return (((this.value + 459.67) * 5) / 9);
-			}
+				return (((valor + 459.67) * 5) / 9);
+			};
 
 			this.toCelsius = function () {
-				return (((this.value - 32) * 5) / 9);
-			}
+				return (((valor - 32) * 5) / 9);
+			};
 		}
 
 		function Kelvin(valor) {
-			Temperatura.call(this, valor);
+			Temperatura.call(this, valor, "k");
+
 			this.toCelsius = function () {
-				return (this.value - 237.15);
-			}
+
+				return (valor - 237.15);
+			};
 
 			this.toFarenheit = function () {
-				return (((this.value * 9) / 5) - 459.67);
-			}
+				return (((valor * 9) / 5) - 459.67);
+			};
 		}
-
-		//Definimos la herencia
 		Temperatura.prototype = new Medida();
 		Temperatura.prototype.constructor = Temperatura;
 		Celsius.prototype = new Temperatura();
@@ -57,54 +58,59 @@
 		exports.Celsius = Celsius;
 		exports.Farenheit = Farenheit;
 
-		exports.convertir = function () {
-			var valor = document.getElementById('convert').value,
-				elemento = document.getElementById('converted'),
-				/* Extienda la RegeExp a la especificación. use una XRegExp */
-				regexp = XRegExp('^(?<numero> [-+]?\d+[\.\d+?])' +
-					'(?<exponente> e[+-]?\d+?)' +
-					'(?<tipo> [cfk])' +
-					'(?<to> (to)?)' +
-					'(?<resultado> [cfk])', 'xi');
-			//regexp = /^\s*([-+]?\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*([a-z,A-Z]+)\s*$/i,
-			var match = XRegExp.exec(valor,regexp);
-			console.log(match)
-			if (!match.resultado)
-				alert("Debe especificar el tipo de resultado");
+		exports.convertir = function(){
+    var valor     = document.getElementById('convert').value,
+        elemento  = document.getElementById('converted'),
+        /* Extienda la RegeExp a la especificación. use una XRegExp */
+        regexp    = /^\s*([-+]?\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*([fkc])\s*(?:to)?\s*([fkc])$/i,
 
-			else {
-				if (match) {
-					var numero = match[1],
-					tipo = match[2].toLowerCase();
-					numero = parseFloat(numero);
-					console.log("Valor: " + numero + ", Tipo: " + tipo);
-					switch (tipo) {
-					case 'c':
-						var celsius = new Celsius(numero);
-						if(match.resultado == 'f')
-							elemento.innerHTML = celsius.toFarenheit().toFixed(2) + " Farenheit";
-							else if(match.resultado == 'k')
-								elemento.innerHTML = celsius.toKelvin().toFixed(2) + " Kelvin";
-						break;
-					case 'f':
-						var farenheit = new Farenheit(numero);
-						if(match.resultado == "c")
-							elemento.innerHTML = farenheit.toCelsius().toFixed(2) + " Celsius";
-							else if(match.resultado == "k")
-								elemento.innerHTML = farenheit.toKelvin().toFixed(2) + " Kelvin";
-						break;
-					case 'k':
-						var kelvin = new Kelvin(numero);
-						if(match.resultado == 'c')
-							elemento.innerHTML = kelvin.toCelsius().toFixed(2) + " Celsius";
-							else if (match.resultado == 'f')
-								elemento.innerHTML = kelvin.toFarenheit().toFixed(2) + " Kelvin";
-						break;
-					default:
-						alert("Error! No se a que tipo de temperatura te refieres con: " + tipo);
+        expresion = XRegExp('(?<num>    ^[ ]*[-+]?[0-9](.[0-9]+)?[ ]*((e[+-]?[ ]*[0-9]+)?)[ ]*)\n\
+                           (?<temp1>    [ ]*([fkcFKC]))\n\
+                           (?<to>       [ ]*(?:to)?[ ]*)\n\
+                           (?<temp2>    [fkcFKC])[ ]*$'),
 
-					}
-				}
-			}
-		}
-		})(this);
+       valor = valor.match(regexp);
+    ///    valor = XRegExp.exec(valor, expresion);
+
+   if (valor) {
+   //if (match) {
+      var numero = valor[1],
+          tipo   = valor[2].toLowerCase(),
+          tipo2  = valor[3].toLowerCase();
+
+      numero = parseFloat(numero);
+      console.log("Valor: " + numero + ", Tipo: " + tipo);
+
+      switch (tipo) {
+        case 'c':
+          var celsius = new Celsius(numero);
+          if (tipo2 == 'f')
+          elemento.innerHTML = celsius.toFarenheit().toFixed(2) + " Farenheit.";
+          if (tipo2 == 'k')
+          elemento.innerHTML = celsius.toKelvin().toFixed(2) + " Kelvin.";
+
+          break;
+        case 'f':
+          var farenheit = new Farenheit(numero);
+          if (tipo2 == 'c')
+          elemento.innerHTML = farenheit.toCelsius().toFixed(2) + " Celsius";
+          if (tipo2 == 'k')
+          elemento.innerHTML = farenheit.toKelvin().toFixed(2) + " Kelvin";
+          break;
+        case 'k':
+          var kelvin = new Kelvin(numero);
+          if (tipo2 == 'c')
+          elemento.innerHTML = kelvin.toCelsius().toFixed(2) + " Celsius";
+          if (tipo2 == 'f')
+          elemento.innerHTML = kelvin.toFarenheit().toFixed(2) + " Farenheit";
+          break;
+
+        default:
+          elemento.innerHTML = "ERROR! Intenta algo como '-4.2C' ";
+      }
+    }
+    else
+      elemento.innerHTML = "";
+  }
+
+})(this);
