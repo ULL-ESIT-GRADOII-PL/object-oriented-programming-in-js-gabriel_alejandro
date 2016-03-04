@@ -2,7 +2,7 @@
 		"use strict";
 		function Medida(valor, tipo) {
 			this.value = valor;
-			this.type = tipo;
+			this.type = tipo || "";
 		}
 
 		function Temperatura(valor, tipo) {
@@ -59,10 +59,10 @@ exports.Farenheit = Farenheit;
 exports.convertir = function(){
 	var valor     = document.getElementById('convert').value;
   var  elemento  = document.getElementById('converted');
-	var expresion = XRegExp('^(?<value>[+-]?\\d+(\\.\\d+)?([e][+-]?\\d+)?[ ]*) # valor \n\
+	var expresion = XRegExp('^(?<value>[+-]?\\d+(\\.\\d+)?([e][+-]?\\d+)?\\s*) # valor \n\
 											 (?<type1>[cfk])   #type for number   \n\
-											 (?<to>[ ]+(?:to[ ]+)?)  #optional to string \n\
-											 (?<type2>[cfk])[ ]*$    #type to convert', 'xi');
+											 (?<to>\\s+(?:to\\s+)?)  #optional to string \n\
+											 (?<type2>[cfk])\\s*$    #type to convert', 'xi');
   var match = XRegExp.exec(valor,expresion);
   if (match) {
   	var numero = match.value,
